@@ -11,6 +11,25 @@ brew install pandoc        # Markdown previews
 
 Then start Emacs. On first start, `use-package` downloads all the packages from MELPA, which takes a minute. The terminal (eat) fix for macOS is also built automatically.
 
+### Shell setup (`~/.zshrc`)
+
+`~/.zshrc` isn't part of this repo, so add this at the end of it by hand:
+
+```bash
+# Emacs eat terminal: shell integration (only active inside eat). Lets eat
+# tell an idle shell from a running command, so closing Emacs doesn't ask
+# about an idle terminal.
+[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \
+  source "$EAT_SHELL_INTEGRATION_DIR/zsh"
+```
+
+What it does:
+- **Quitting Emacs with an idle terminal:** no "active process" prompt. It still asks if a command is running in a terminal, so you don't kill something by accident.
+- **Directory tracking:** eat follows the shell's current directory as you `cd`.
+- **Only active inside eat.** eat sets `EAT_SHELL_INTEGRATION_DIR` for its own shells, so normal terminals are unaffected.
+
+Without it everything else still works, but quitting Emacs asks about every open terminal.
+
 Optional extras:
 - **SLIME (Common Lisp):** install SBCL and Quicklisp, then in SBCL run `(ql:quickload "quicklisp-slime-helper")`. `init.el` loads it if it's present and skips it if not.
 - **Dracula Pro theme:** a paid theme, so it isn't in this repo. Copy `dracula-pro-blade-theme.el` into `~/.emacs.d/themes/` and enable its `load-theme` line in `init.el`.
@@ -80,6 +99,8 @@ Keys written like `C-c C-c l` are pressed one after another.
 | `C-c C-e` | Emacs mode: scroll, search, select & copy output |
 | `C-c C-j` | Back to normal terminal mode |
 | `C-x k` | Kill the terminal (next `C-c e` starts a fresh one) |
+
+The terminal has its own colour scheme, independent of the Emacs theme. It's currently the macOS Terminal "Homebrew" profile: green on black with Terminal.app's ANSI colours. A Tokyo Night palette is also defined. To switch, set `my/eat-palette` in `init.el` to `my/eat-palette-homebrew` or `my/eat-palette-tokyo-night`, or add your own palette.
 
 ## Markdown (markdown-mode)
 

@@ -62,6 +62,52 @@
   :bind ("M-o" . ace-window))       ; number the windows, type one to jump there
 
 ;; Terminal (eat: a full terminal emulator written in Emacs Lisp)
+
+;; The terminal gets its own colour scheme, separate from the main theme. Themes are global, so instead:
+;;  - background/text: remapped buffer-locally in eat buffers;
+;;  - the 16 ANSI colours (used by ls, git, the prompt, ...): eat reads them
+;;    from faces named per terminal, so each new terminal is pointed at our
+;;    own faces (my/eat-color-0..15) instead of the theme's.
+;; Pick a palette in `my/eat-palette'; applies to terminals opened afterwards.
+;; :colors are 0-7 black red green yellow blue magenta cyan white, then 8-15
+;; the bright versions.
+
+(defvar my/eat-palette-homebrew
+  ;; macOS Terminal's "Homebrew" profile: background/text read from Terminal's
+  ;; preferences; it doesn't set ANSI colours, so these are Terminal.app's
+  ;; default palette.
+  '(:background "#000000" :foreground "#28fe14"
+    :colors ["#000000" "#c23621" "#25bc24" "#adad27" "#492ee1" "#d338d3" "#33bbc8" "#cbcccd"
+             "#818383" "#fc391f" "#31e722" "#eaec23" "#5833ff" "#f935f8" "#14f0f0" "#e9ebeb"]))
+
+(defvar my/eat-palette-tokyo-night
+  '(:background "#1a1b26" :foreground "#c0caf5"
+    :colors ["#15161e" "#f7768e" "#9ece6a" "#e0af68" "#7aa2f7" "#bb9af7" "#7dcfff" "#a9b1d6"
+             "#414868" "#ff899d" "#9fe044" "#faba4a" "#8db0ff" "#c7a9ff" "#a4daff" "#c0caf5"]))
+
+(defvar my/eat-palette my/eat-palette-homebrew
+  "Colour scheme for eat terminal buffers.")
+
+(defun my/eat-apply-palette ()
+  "Give the current eat buffer the background/text from `my/eat-palette'."
+  (let ((bg (plist-get my/eat-palette :background))
+        (fg (plist-get my/eat-palette :foreground)))
+    (face-remap-add-relative 'default :background bg :foreground fg)
+    (face-remap-add-relative 'fringe :background bg)))
+
+(defun my/eat-use-palette-colors (&rest _)
+  "Point the current eat terminal's 16 ANSI colours at `my/eat-palette'."
+  (let ((colors (plist-get my/eat-palette :colors)))
+    (dotimes (i 16)
+      (let ((face (intern (format "my/eat-color-%d" i)))
+            (c (aref colors i)))
+        (make-face face)
+        ;; Each colour is used for both text and cell backgrounds.
+        (set-face-attribute face nil :foreground c :background c)
+        ;; (Not SETF: eat isn't loaded when this is defined, so its setter
+        ;; wouldn't be known yet.)
+        (eat-term-set-parameter eat-terminal (intern (format "color-%d-face" i)) face)))))
+
 (defun my/eat-toggle ()
   "Show or hide the terminal panel at the bottom of the window."
   (interactive)
@@ -73,6 +119,8 @@
 (use-package eat
   :ensure t
   :bind ("C-c e" . my/eat-toggle)   ; also works from inside the terminal
+  :hook ((eat-mode . my/eat-apply-palette)
+         (eat-exec . my/eat-use-palette-colors))
   :init
   ;; Open the terminal as a panel along the bottom, 30% of the height.
   (add-to-list 'display-buffer-alist
