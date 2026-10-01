@@ -184,3 +184,5 @@
    ;; A bracket with no partner, or closing the wrong kind: red background.
    '(rainbow-delimiters-unmatched-face ((t (:foreground "white" :background "#d2212d" :weight bold))))
    '(rainbow-delimiters-mismatched-face ((t (:foreground "white" :background "#d2212d" :weight bold))))))
+
+(setq-default indent-tabs-mode nil)
