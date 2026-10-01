@@ -68,6 +68,8 @@ Keys written like `C-c C-c l` are pressed one after another.
 
 ## Treemacs (file tree)
 
+The tree opens automatically on the left when Emacs starts. The cursor stays in the main window.
+
 | Keys | Action |
 |---|---|
 | `C-c t` | Show / hide the tree |

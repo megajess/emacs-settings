@@ -44,8 +44,14 @@
 (load-theme 'solarized-selenized-dark t)
 
 ;; File tree on the left
+(defun my/treemacs-on-startup ()
+  "Open the tree when Emacs starts, keeping the cursor in the main window."
+  (when (display-graphic-p)         ; skip background/terminal Emacs (no window to show it in)
+    (treemacs-start-on-boot)))
+
 (use-package treemacs
   :ensure t                         ; install automatically on first start
+  :hook (emacs-startup . my/treemacs-on-startup)
   :bind (("C-c t" . treemacs)       ; toggle the tree
          ("C-c T" . treemacs-select-window))
   :config
