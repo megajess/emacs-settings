@@ -1,0 +1,29 @@
+# Emacs temp files
+*~
+\#*\#
+.#*
+*.elc
+*.bak*
+
+# macOS
+.DS_Store
+
+# Installed packages: use-package reinstalls them on first start
+/elpa/
+/eln-cache/
+
+# Generated / per-machine state
+/eat-terminfo/
+/.cache/
+/auto-save-list/
+/transient/
+/url/
+/tramp
+/recentf
+/savehist
+/history
+/projects
+/network-security.data
+
+# Dracula Pro is a paid theme; don't publish it
+/themes/dracula-pro*
