@@ -211,3 +211,19 @@
 ;; Line numbers in code files (prog-mode covers Lisp, elisp, shell, ...).
 (setq-default display-line-numbers-width-start t) ; size the column for the whole file, so it doesn't jump while scrolling
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+
+;; Git: Magit (C-x g) for status/stage/commit/push/log, and diff-hl to mark
+;; changed lines in the fringe (green added, blue changed, red deleted).
+(use-package magit
+  :ensure t
+  :bind ("C-x g" . magit-status))
+
+(use-package diff-hl
+  :ensure t
+  :demand t                                  ; on for every file from startup
+  :hook ((dired-mode . diff-hl-dired-mode)   ; mark changed files in Dired too
+         (magit-pre-refresh . diff-hl-magit-pre-refresh)    ; refresh after
+         (magit-post-refresh . diff-hl-magit-post-refresh)) ; Magit stages/commits
+  :config
+  (global-diff-hl-mode)
+  (diff-hl-flydiff-mode))                    ; update while typing, not just on save

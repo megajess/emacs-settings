@@ -142,6 +142,32 @@ The terminal has its own colour scheme, independent of the Emacs theme. It's cur
 
 `|` marks the cursor. All the colours are set in `init.el`, in the `rainbow-delimiters` and show-paren sections.
 
+## Git (Magit, diff-hl)
+
+Lines that differ from the last commit are marked in the fringe as you type: **green** added, **blue** changed, **red** deleted. Dired shows changed files the same way.
+
+| Keys | Action |
+|---|---|
+| `C-x g` | Magit status: see changes, stage, commit, push |
+| `C-x v ]` / `C-x v [` | Next / previous changed block |
+| `C-x v *` | Show the diff for the block at the cursor |
+| `C-x v n` | Revert just that block |
+| `C-x v S` | Stage just that block |
+
+In Magit's status buffer:
+
+| Keys | Action |
+|---|---|
+| `s` / `u` | Stage / unstage the file or block at the cursor |
+| `c c` | Commit (write the message, then `C-c C-c`; `C-c C-k` cancels) |
+| `P p` | Push |
+| `F p` | Pull |
+| `l l` | Log |
+| `TAB` | Expand or collapse a file's diff |
+| `g` | Refresh |
+| `?` | Show all commands |
+| `q` | Close Magit |
+
 ## Handy built-ins
 
 | Keys | Action |
