@@ -207,3 +207,7 @@
   (sp-use-paredit-bindings))
 
 (setq-default indent-tabs-mode nil)
+
+;; Line numbers in code files (prog-mode covers Lisp, elisp, shell, ...).
+(setq-default display-line-numbers-width-start t) ; size the column for the whole file, so it doesn't jump while scrolling
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)

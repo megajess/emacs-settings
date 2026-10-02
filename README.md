@@ -152,3 +152,4 @@ The terminal has its own colour scheme, independent of the Emacs theme. It's cur
 | `C-x p f` | Find a file in the project |
 | `C-x p s` | Shell in the project root |
 | `M-x tool-bar-mode` | Bring the tool bar back for this session |
+| `M-x display-line-numbers-mode` | Toggle line numbers (on by default in code files) |
