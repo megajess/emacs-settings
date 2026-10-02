@@ -185,4 +185,25 @@
    '(rainbow-delimiters-unmatched-face ((t (:foreground "white" :background "#d2212d" :weight bold))))
    '(rainbow-delimiters-mismatched-face ((t (:foreground "white" :background "#d2212d" :weight bold))))))
 
+;; Highlight the bracket matching the one at the cursor (built-in show-paren).
+(setq show-paren-delay 0                          ; highlight immediately
+      show-paren-when-point-inside-paren t        ; also when just inside a bracket
+      show-paren-when-point-in-periphery t)       ; and from the indentation before a line's first (
+(custom-set-faces
+ ;; Solid gold block: the theme's default (bold magenta text) disappeared
+ ;; among the bold rainbow-delimiters colours.
+ '(show-paren-match ((t (:background "#ffd75f" :foreground "black" :weight bold)))))
+
+;; smartparens: auto-pairs brackets/quotes plus structural editing.
+;; Relaxed mode: unlike paredit you can still delete or insert a single
+;; bracket. M-x smartparens-strict-mode turns on paredit-style strictness
+;; for the current buffer. Keys are paredit's (sp-use-paredit-bindings).
+(use-package smartparens
+  :ensure t
+  :hook ((prog-mode . smartparens-mode)
+         (slime-repl-mode . smartparens-mode))
+  :config
+  (require 'smartparens-config)     ; per-language rules (e.g. no ' pairing in Lisp)
+  (sp-use-paredit-bindings))
+
 (setq-default indent-tabs-mode nil)

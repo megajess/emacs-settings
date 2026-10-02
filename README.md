@@ -119,9 +119,28 @@ The terminal has its own colour scheme, independent of the Emacs theme. It's cur
 | `TAB` (on a heading) | Fold / unfold the section |
 | `C-c C-n` / `C-c C-p` / `C-c C-u` | Next / previous / parent heading |
 
-## Brackets (rainbow-delimiters)
+## Brackets
 
-Brackets are coloured by depth (bold orange, mint, raspberry, white, then repeating). Unmatched or mismatched brackets show white on red. The colours are set in the `rainbow-delimiters` block of `init.el`.
+**Colours (rainbow-delimiters):** brackets are coloured by depth (bold orange, mint, raspberry, white, then repeating). Unmatched or mismatched brackets show white on red.
+
+**Matching bracket (show-paren):** when the cursor is on, just inside, or in the indentation before a bracket, it and its partner are highlighted in solid gold.
+
+**Editing (smartparens, relaxed mode):** typing `(` or `"` inserts the pair, and typing `)` steps over an existing one. Unlike paredit, you can still delete or insert a single bracket. `M-x smartparens-strict-mode` turns on paredit-style strictness for the current buffer.
+
+| Keys | Action | Example |
+|---|---|---|
+| `C-)` / `C-}` | Slurp / barf forward | `(a b\|) c` → `(a b c)` / `(a b c)` → `(a b) c` |
+| `C-(` / `C-{` | Slurp / barf backward | `a (b\|)` → `(a b)` |
+| `M-s` | Splice: remove the surrounding brackets | `(f (g\| x))` → `(f g x)` |
+| `M-r` | Raise: replace the parent with the form at the cursor | `(f \|(g x))` → `(g x)` |
+| `M-(` | Wrap the next form in `( )` | `\|x` → `(x)` |
+| `M-S` / `M-j` | Split / join forms | `(a \|b)` → `(a) (b)` |
+| `M-<up>` / `M-<down>` | Splice, killing what's before / after the cursor | |
+| `C-M-f` / `C-M-b` | Forward / back over a whole form | |
+| `C-M-u` / `C-M-d` | Up out of / down into a form | |
+| `C-M-k` | Cut the form after the cursor | |
+
+`|` marks the cursor. All the colours are set in `init.el`, in the `rainbow-delimiters` and show-paren sections.
 
 ## Handy built-ins
 
