@@ -206,6 +206,18 @@
   (require 'smartparens-config)     ; per-language rules (e.g. no ' pairing in Lisp)
   (sp-use-paredit-bindings))
 
+;; Lisp: tidy the whole buffer on save. Re-indents every form (Emacs doesn't
+;; reflow line breaks, only indentation), turns any tabs into spaces, and
+;; strips trailing whitespace.
+(defun my/lisp-tidy-buffer ()
+  (save-excursion
+    (indent-region (point-min) (point-max))
+    (untabify (point-min) (point-max))
+    (delete-trailing-whitespace)))
+
+(add-hook 'lisp-mode-hook
+          (lambda () (add-hook 'before-save-hook #'my/lisp-tidy-buffer nil t)))
+
 (setq-default indent-tabs-mode nil)
 
 ;; Line numbers in code files (prog-mode covers Lisp, elisp, shell, ...).
